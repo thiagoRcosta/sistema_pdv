@@ -23,9 +23,12 @@ function Header() {
   return (
     <header className="mt-4">
       <nav className="container mx-auto flex justify-center items-center">
-        <ul className="w-full max-w-3xl flex justify-evenly items-center gap-1 text-white p-4 bg-(--color-primary) rounded-full shadow-lg shadow-black/30">
+        <ul className="w-full max-w-3xl flex justify-evenly items-center gap-1 p-2 bg-(--color-primary) rounded-full shadow-lg shadow-black/30">
           {menuItems.map(({ Icon, label }) => (
-            <li key={label} className="flex flex-col items-center">
+            <li
+              key={label}
+              className="flex flex-col items-center text-white hover:bg-black/20 p-2 rounded-xl transition-colors duration-300 cursor-pointer"
+            >
               <Icon style={iconStyle} />
               <p style={labelStyle}>{label}</p>
             </li>
