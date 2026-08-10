@@ -1,53 +1,44 @@
-import HomeIcon from "@mui/icons-material/Home";
-import LocalMallIcon from "@mui/icons-material/LocalMall";
-import WidgetsIcon from "@mui/icons-material/Widgets";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import ReceiptIcon from "@mui/icons-material/Receipt";
-import People from "@mui/icons-material/Person";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import { Link } from "react-router";
+import { NavLink } from "react-router";
+import { routeElements } from "../Routes";
 
-const iconStyle = { fontSize: "1.7rem", marginBottom: "0.1rem" };
-const labelStyle = { fontSize: "0.8rem" };
+const iconStyle = {
+  fontSize: "1.7rem",
+  marginBottom: "0.1rem",
+};
 
-const navigationItems = [
-  { Icon: HomeIcon, path: "/", label: "Home" },
-  { Icon: LocalMallIcon,path: "/produtos", label: "Produtos" },
-  { Icon: WidgetsIcon,path: "/estoque", label: "Estoque" },
-  { Icon: People,path: "/clientes", label: "Clientes" },
-  { Icon: LocalShippingIcon,path: "/fornecedores", label: "Fornecedores" },
-  { Icon: AttachMoneyIcon,path: "/vendas", label: "Vendas" },
-  { Icon: ReceiptIcon,path: "/relatorios", label: "Relatórios" },
-]
-
-const menuItemsWithPaths = navigationItems.map((item) => {
-  const route = navigationItems.find(({ label }) => label === item.label);
-
-  return {
-    ...item,
-    path: route?.path ?? "/",
-  };
-});
+const labelStyle = {
+  fontSize: "0.8rem",
+};
 
 function Header() {
+  const menuItems = routeElements.filter(({ handle }) => handle?.menu?.show);
+
   return (
-    <header className="mt-4">
-      <nav className="container mx-auto flex justify-center items-center">
-        <ul className="w-full max-w-3xl flex justify-evenly items-center gap-1 p-2 bg-(--color-primary) rounded-full shadow-lg shadow-black/30">
-          {menuItemsWithPaths.map(({ Icon, label, path }) => (
-            <li
-              key={label}
-              className="flex flex-col items-center text-white hover:bg-black/20 p-2 rounded-xl transition-colors duration-300 cursor-pointer"
-            >
-              <Link to={path}>
-                <Icon style={iconStyle} />
-                <p style={labelStyle}>{label}</p>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </header>
+    <nav className="container flex w-full overflow-hidden bg-(--color-primary) mx-auto rounded-xl mt-4 shadow-md shadow-black/20">
+      {menuItems.map(({ path, handle }) => {
+        const { label, icon: Icon } = handle.menu;
+
+        return (
+          <NavLink
+            key={path}
+            to={path}
+            className={({ isActive }) =>
+              `w-full flex flex-col items-center text-center text-white p-3
+              transition-colors duration-200
+              ${
+                isActive
+                  ? "bg-(--color-secondary) font-bold"
+                  : "hover:bg-black/20"
+              }`
+            }
+          >
+            <Icon style={iconStyle} />
+
+            <span style={labelStyle}>{label}</span>
+          </NavLink>
+        );
+      })}
+    </nav>
   );
 }
 
